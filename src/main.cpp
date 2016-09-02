@@ -15,7 +15,7 @@
 #define PIN D5
 
 #define SSID "LaurenAndRobin"
-#define SCAN_LOOPS 6
+#define SCAN_LOOPS 8
 
 ESP8266WiFiScanClass scan;
 
@@ -87,9 +87,9 @@ void loop() {
 				b = imax(0, (o % 256) - 32);
 		}
 */
-		r = (o % 256) * v;
-		b = ((o + 85) % 256) * v;
-		g = ((o + 170) % 256) * v;
+		r = 255 * (active ? (v + 0.25) / 1.25 : v);
+		b = 255 * (active ? v : (v + 0.25) / 1.25);
+		g = 255 * v;
 
 		pixels.setPixelColor(n, r , g, b);
 	}
@@ -104,9 +104,9 @@ void loop() {
 		}
 	}
 	if(active)
-		v = (v + 0.001) / 1.001;
+		v = (v + 0.0001) / 1.0001;
 	else
 		v = v / 1.003;
 	pixels.show();
-	delay(5);
+	delay(1);
 }
